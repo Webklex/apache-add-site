@@ -29,5 +29,10 @@ local machine. Its really easy to use, so have fun and give it a try ;)
     
     
 Example usage:
-sudo siteManager -d dev -n example -p /var/www/dev/example -l true
+sudo siteManager -d dev -n example -p /var/www/dev/example -l
+```
+
+## Installation & Setup
+```
+sudo cp siteManager.sh /usr/local/bin/site-manager
 ```
