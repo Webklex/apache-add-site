@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 VERSION="1.0.0 alpha"
 
@@ -111,7 +111,7 @@ if [ "$(ls -A "$TMP_PATH")" ]; then
     rm -r "$TMP_PATH"/*
 fi
 
-APACHE_SITE_CONFIG_FILE_NAME="$TMP_PATH/$SITE_NAME.$DOMAIN.conf"
+APACHE_SITE_CONFIG_FILE_NAME="$APACHE_SITE_PATH/$SITE_NAME.$DOMAIN.conf"
 APACHE_SITE_CONFIG_FILE_CONTENT="
 <VirtualHost *:80>
         ServerName $SITE_NAME.$DOMAIN
@@ -123,26 +123,24 @@ APACHE_SITE_CONFIG_FILE_CONTENT="
 </VirtualHost>
 "
 
-echo "$APACHE_SITE_CONFIG_FILE_CONTENT" > "$APACHE_SITE_CONFIG_FILE_NAME"
-
 #Put it all together
-if [ "$(ls -A "$APACHE_SITE_CONFIG_FILE_NAME")" ]; then
+if [ -f "$APACHE_SITE_CONFIG_FILE_NAME" ]; then
     echo "
     Configuration file already exists. Please move it or choose an other domain name
     "
     exit
 else
-    cp "$APACHE_SITE_CONFIG_FILE_NAME" "$APACHE_SITE_PATH/$SITE_NAME.$DOMAIN.conf"
+    sudo sh -c "echo '$APACHE_SITE_CONFIG_FILE_CONTENT' > '$APACHE_SITE_CONFIG_FILE_NAME'"
 fi
 
 HOST_FILE_CONTENT="$LOCAL_IP    $SITE_NAME.$DOMAIN"
 if ! grep -q "$HOST_FILE_CONTENT" "$HOSTS_FILE" ; then
-    echo "$HOST_FILE_CONTENT" >> "$HOSTS_FILE"
+    sudo sh -c "echo '$HOST_FILE_CONTENT' >> '$HOSTS_FILE'"
 fi
 
 #Restarting apache2 in order to reload the configuration
-a2ensite "$SITE_NAME.$DOMAIN.conf"
-service apache2 reload
+sudo sh -c "a2ensite $SITE_NAME.$DOMAIN.conf"
+sudo sh -c "service apache2 reload"
 
 echo "
 $SITE_NAME.$DOMAIN has ben setup!
