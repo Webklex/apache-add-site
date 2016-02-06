@@ -1,8 +1,30 @@
-# UBUNTU SITE MANAGER 
+# UBUNTU/Apache2 SITE MANAGER
+## create locals domains on the fly
 
 ```
-This product is designed to create new development pages on your
-local machine. Its really easy to use, so have fun and give it a try ;)
+Author: M.Goldenbaum | Webklex 
+Website: http://webklex.com 
+License: MIT
+Version: 1.0.0 alpha
+
+Description: This script is designed to setup any local 
+development website witch one easy command. 
+It creates if it doesn't exists an apache2 site config
+file, does the required hosts entry, adds the site to 
+the apache configuration (a2ensite) and reloads the 
+whole configuration. So you can get started within
+seconds.
+
+Example for creating the local domain example.dev:
+site-manager -d dev -n example -p /var/www/dev/example -l 
+
+Getting Help: 
+There are actually multiple ways to get help if you are 
+stuck or have any questions. You can either visit the 
+official Github site: https://github.com/Webklex/apache-add-site or contact me
+by sending an email to: info@webklex.com
+
+Available options:
 
 -h
     Display the help page. Actually your seeing it right now.
