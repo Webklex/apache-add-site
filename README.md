@@ -34,5 +34,9 @@ site-manager -d dev -n example -p /var/www/dev/example -l
 
 ## Installation & Setup
 ```
-sudo cp siteManager.sh /usr/local/bin/site-manager
+sudo cp site-manager.sh /usr/local/bin/site-manager
+
+or
+
+sudo ln -s site-manager.sh /usr/local/bin/site-manager
 ```
