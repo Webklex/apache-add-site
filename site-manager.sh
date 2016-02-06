@@ -66,9 +66,10 @@ local machine. Its really easy to use, so have fun and give it a try ;)
     Default: 127.0.0.1
 -l
     Sometimes you need to disable the lock - if so use -l to force what ever you want
-    Usage: -l true
+    Usage: -l
+
 Example usage:
-site-manager -d dev -n example -p /var/www/dev/example -l true
+site-manager -d dev -n example -p /var/www/dev/example -l
     "
         exit 0
         ;;
