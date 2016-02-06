@@ -6,7 +6,6 @@ DOMAIN="dev"
 SITE_NAME="example"
 
 SITE_PATH="/var/www/dev/$SITE_NAME/public"
-TMP_PATH="/tmp/siteManager"
 
 APACHE_SITE_PATH="/etc/apache2/sites-available"
 HOSTS_FILE="/etc/hosts"
@@ -69,7 +68,7 @@ local machine. Its really easy to use, so have fun and give it a try ;)
     Sometimes you need to disable the lock - if so use -l to force what ever you want
     Usage: -l true
 Example usage:
-sudo siteManager -d dev -n example -p /var/www/dev/example -l true
+site-manager -d dev -n example -p /var/www/dev/example -l true
     "
         exit 0
         ;;
@@ -88,7 +87,6 @@ Use -h to find out more about the available options
 DOMAIN:............ $DOMAIN
 SITE_NAME:......... $SITE_NAME
 SITE_PATH:......... $SITE_PATH
-TMP_PATH:.......... $TMP_PATH
 APACHE_SITE_PATH:.. $APACHE_SITE_PATH
 HOSTS_FILE:........ $HOSTS_FILE
 LOCAL_IP:.......... $LOCAL_IP
@@ -103,13 +101,6 @@ fi
 
 #Create required folders
 [ -d "$SITE_PATH" ] || mkdir -p "$SITE_PATH"
-[ -d "$TMP_PATH" ] || mkdir -p "$TMP_PATH"
-
-# look for empty dir
-if [ "$(ls -A "$TMP_PATH")" ]; then
-    #Remove all tmp files
-    rm -r "$TMP_PATH"/*
-fi
 
 APACHE_SITE_CONFIG_FILE_NAME="$APACHE_SITE_PATH/$SITE_NAME.$DOMAIN.conf"
 APACHE_SITE_CONFIG_FILE_CONTENT="
@@ -134,12 +125,14 @@ else
 fi
 
 HOST_FILE_CONTENT="$LOCAL_IP    $SITE_NAME.$DOMAIN"
+
 if ! grep -q "$HOST_FILE_CONTENT" "$HOSTS_FILE" ; then
     sudo sh -c "echo '$HOST_FILE_CONTENT' >> '$HOSTS_FILE'"
 fi
 
 #Restarting apache2 in order to reload the configuration
 sudo sh -c "a2ensite $SITE_NAME.$DOMAIN.conf"
+echo "Executing: service apache2 reload"
 sudo sh -c "service apache2 reload"
 
 echo "
